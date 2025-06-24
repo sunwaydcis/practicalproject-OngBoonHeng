@@ -6,11 +6,30 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
 import scalafx.Includes.*
 import javafx.scene as jfxs
+import scalafx.beans.property.StringProperty
 
 object MainApp extends JFXApp3:
 
   //Window Root Pane
   var roots: Option[scalafx.scene.layout.BorderPane] = None
+
+  /**
+   * The data as an observable list of Persons.
+   */
+  val personData = new ObservableBuffer[Person]()
+
+  /**
+   * Constructor
+   */
+  personData += new Person("Hans", "Muster")
+  personData += new Person("Ruth", "Mueller")
+  personData += new Person("Heinz", "Kurz")
+  personData += new Person("Cornelia", "Meier")
+  personData += new Person("Werner", "Meyer")
+  personData += new Person("Lydia", "Kunz")
+  personData += new Person("Anna", "Best")
+  personData += new Person("Stefan", "Meier")
+  personData += new Person("Martin", "Mueller")
 
   override def start(): Unit =
     // transform path of RootLayout.fxml to URI for resource location.
@@ -37,3 +56,17 @@ object MainApp extends JFXApp3:
     loader.load()
     val roots = loader.getRoot[jfxs.layout.AnchorPane]
     this.roots.get.center = roots
+    
+    val stringA = new StringProperty("hello") // publisher
+    val stringB = new StringProperty("sunway") // subscriber
+    val stringC = new StringProperty("sunway") // subscriber
+    
+    stringA.value = "world"
+    
+    stringA.onChange { (_, oldValue, newValue) =>
+      println(s"stringA changed from $oldValue to $newValue")
+    }
+    
+    stringA.onChange { (_, _, _) =>
+      println(s"stringA has change!!!!!!!")
+    }
